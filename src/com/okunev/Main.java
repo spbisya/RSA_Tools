@@ -1,4 +1,4 @@
-package in.flagrante.delicto;
+package com.okunev;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +12,7 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Arrays;
 
 import javax.crypto.Cipher;
 
@@ -20,17 +21,17 @@ public class Main {
     /**
      * String to hold name of the encryption algorithm.
      */
-    public static final String ALGORITHM = "RSA";
+    private static final String ALGORITHM = "RSA";
 
     /**
      * String to hold the name of the private key file.
      */
-    public static final String PRIVATE_KEY_FILE = "private.key";
+    private static final String PRIVATE_KEY_FILE = "private.key";
 
     /**
      * String to hold name of the public key file.
      */
-    public static final String PUBLIC_KEY_FILE = "public.key";
+    private static final String PUBLIC_KEY_FILE = "public.key";
 
     /**
      * Generate key which contains a pair of private and public key using 1024
@@ -40,7 +41,7 @@ public class Main {
      * @throws IOException
      * @throws FileNotFoundException
      */
-    public static void generateKey() {
+    private static void generateKey() {
         try {
             final KeyPairGenerator keyGen = KeyPairGenerator.getInstance(ALGORITHM);
             keyGen.initialize(4096);
@@ -82,7 +83,7 @@ public class Main {
      *
      * @return flag indicating if the pair of keys were generated.
      */
-    public static boolean areKeysPresent() {
+    private static boolean areKeysPresent() {
 
         File privateKey = new File(PRIVATE_KEY_FILE);
         File publicKey = new File(PUBLIC_KEY_FILE);
@@ -101,7 +102,7 @@ public class Main {
      * @return Encrypted text
      * @throws java.lang.Exception
      */
-    public static byte[] encrypt(String text, PublicKey key) {
+    private static byte[] encrypt(String text, PublicKey key) {
         byte[] cipherText = null;
         try {
             // get an RSA cipher object and print the provider
@@ -123,7 +124,7 @@ public class Main {
      * @return plain text
      * @throws java.lang.Exception
      */
-    public static String decrypt(byte[] text, PrivateKey key) {
+    private static String decrypt(byte[] text, PrivateKey key) {
         byte[] dectyptedText = null;
         try {
             // get an RSA cipher object and print the provider
@@ -137,6 +138,7 @@ public class Main {
             ex.printStackTrace();
         }
 
+        assert dectyptedText != null;
         return new String(dectyptedText);
     }
 
@@ -155,7 +157,7 @@ public class Main {
             }
 
             final String originalText = "Text to be encrypted ";
-            ObjectInputStream inputStream = null;
+            ObjectInputStream inputStream;
 
             // Encrypt the string using the public key
             inputStream = new ObjectInputStream(new FileInputStream(PUBLIC_KEY_FILE));
@@ -169,7 +171,7 @@ public class Main {
 
             // Printing the Original, Encrypted and Decrypted Text
             System.out.println("Original: " + originalText);
-            System.out.println("Encrypted: " + cipherText.toString());
+            System.out.println("Encrypted: " + Arrays.toString(cipherText));
             System.out.println("Decrypted: " + plainText);
 
         } catch (Exception e) {
