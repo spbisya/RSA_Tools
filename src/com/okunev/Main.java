@@ -1,10 +1,9 @@
 package com.okunev;
 
-import com.okunev.utils.RSAHelper;
+import com.okunev.algolib.AlgorithmTools;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class Main {
 
@@ -12,19 +11,9 @@ public class Main {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             final String originalText = reader.readLine();
-            RSAHelper helper = RSAHelper.getInstance();
-            final byte[] cipherText = helper.encrypt(originalText);
-            final String plainText = helper.decrypt(cipherText);
-            // Удобный лог
-            System.out.println("RSA 4096 algorithm");
-            System.out.println("Entered: " + originalText);
-            System.out.println("Encrypted: " + Arrays.toString(cipherText));
-            System.out.println("Decrypted: " + plainText);
-            System.out.println("\n");
-            SymmetricEncryption.testAlgorithms(originalText);
+            AlgorithmTools.test(originalText);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }
